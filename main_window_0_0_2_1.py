@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_0_0_1.ui'
+# Form implementation generated from reading ui file 'Ui_0_0_2.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -17,10 +17,17 @@ DB_PATH = f"{getcwd()}\\database.db"
 
 database = Database()
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        # # query notes to populate into GUI
+        # self.notes_to_show = self.get_notes()
+        # print(self.notes_to_show)
+        # self.length_of_notes = len(self.notes_to_show) -1
+        self.get_notes()
+
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(982, 598)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.note_name = QtWidgets.QLineEdit(self.centralwidget)
@@ -37,10 +44,14 @@ class Ui_MainWindow(object):
         self.pushButton_save_note.setObjectName("pushButton_save_note")
         self.note_contents = QtWidgets.QTextEdit(self.centralwidget)
         self.note_contents.setGeometry(QtCore.QRect(0, 60, 801, 491))
+        self.note_contents.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.note_contents.setObjectName("note_contents")
+        self.recent_note_1 = QtWidgets.QPushButton(self.centralwidget)
+        self.recent_note_1.setGeometry(QtCore.QRect(800, 60, 181, 71))
+        self.recent_note_1.setObjectName("recent_note_1")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 982, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -53,14 +64,13 @@ class Ui_MainWindow(object):
         # Button action
         self.pushButton_save_note.clicked.connect(self.save_button)
 
-
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_note_name.setText(_translate("MainWindow", "Name:"))
         self.label_contents.setText(_translate("MainWindow", "Contents:"))
         self.pushButton_save_note.setText(_translate("MainWindow", "Save Note"))
-
+        self.recent_note_1.setText(_translate("MainWindow", self.db_notes[self.length_of_notes][1]))
 
     def save_button(self):
         new_note_name = self.note_name.text()
@@ -71,14 +81,24 @@ class Ui_MainWindow(object):
         print(note_to_save)
         conn = database.create_connection(DB_PATH)
         database.add_note(conn, note_to_save)
+        self.get_notes()
+        self.retranslateUi(MainWindow)
 
 
+    def get_notes(self):
+        conn = database.create_connection(DB_PATH)
+        self.db_notes = database.get_user_notes(conn)
+        # query notes to populate into GUI
+        print(self.db_notes)
+        self.length_of_notes = len(self.db_notes) - 1
+        return self.db_notes
 
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
+
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'Ui_0_0_1.ui'
+# Form implementation generated from reading ui file 'Ui_0_0_2.ui'
 #
 # Created by: PyQt5 UI code generator 5.15.4
 #
@@ -17,10 +17,14 @@ DB_PATH = f"{getcwd()}\\database.db"
 
 database = Database()
 
+
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
+        # query notes to populate into GUI
+        notes_to_show = self.get_notes()
+
         MainWindow.setObjectName("MainWindow")
-        MainWindow.resize(800, 600)
+        MainWindow.resize(982, 598)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
         self.note_name = QtWidgets.QLineEdit(self.centralwidget)
@@ -37,10 +41,26 @@ class Ui_MainWindow(object):
         self.pushButton_save_note.setObjectName("pushButton_save_note")
         self.note_contents = QtWidgets.QTextEdit(self.centralwidget)
         self.note_contents.setGeometry(QtCore.QRect(0, 60, 801, 491))
+        self.note_contents.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.IBeamCursor))
         self.note_contents.setObjectName("note_contents")
+        self.saved_notes = QtWidgets.QScrollArea(self.centralwidget)
+        self.saved_notes.setGeometry(QtCore.QRect(800, 60, 161, 491))
+        self.saved_notes.viewport().setProperty("cursor", QtGui.QCursor(QtCore.Qt.UpArrowCursor))
+        self.saved_notes.setWidgetResizable(True)
+        self.saved_notes.setObjectName("saved_notes")
+        self.scrollAreaWidgetContents = QtWidgets.QWidget()
+        self.scrollAreaWidgetContents.setGeometry(QtCore.QRect(0, 0, 159, 489))
+        self.scrollAreaWidgetContents.setObjectName("scrollAreaWidgetContents")
+        self.verticalLayoutWidget = QtWidgets.QWidget(self.scrollAreaWidgetContents)
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(0, 0, 161, 51))
+        self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
+        self.verticalLayout_1 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
+        self.verticalLayout_1.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_1.setObjectName("verticalLayout_1")
+        self.saved_notes.setWidget(self.scrollAreaWidgetContents)
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QtWidgets.QMenuBar(MainWindow)
-        self.menubar.setGeometry(QtCore.QRect(0, 0, 800, 21))
+        self.menubar.setGeometry(QtCore.QRect(0, 0, 982, 21))
         self.menubar.setObjectName("menubar")
         MainWindow.setMenuBar(self.menubar)
         self.statusbar = QtWidgets.QStatusBar(MainWindow)
@@ -54,13 +74,13 @@ class Ui_MainWindow(object):
         self.pushButton_save_note.clicked.connect(self.save_button)
 
 
+
     def retranslateUi(self, MainWindow):
         _translate = QtCore.QCoreApplication.translate
         MainWindow.setWindowTitle(_translate("MainWindow", "MainWindow"))
         self.label_note_name.setText(_translate("MainWindow", "Name:"))
         self.label_contents.setText(_translate("MainWindow", "Contents:"))
         self.pushButton_save_note.setText(_translate("MainWindow", "Save Note"))
-
 
     def save_button(self):
         new_note_name = self.note_name.text()
@@ -72,13 +92,16 @@ class Ui_MainWindow(object):
         conn = database.create_connection(DB_PATH)
         database.add_note(conn, note_to_save)
 
+    def get_notes(self):
+        conn = database.create_connection(DB_PATH)
+        db_notes = database.get_user_notes(conn)
+        return db_notes
 
-
-# if __name__ == "__main__":
-#     import sys
-#     app = QtWidgets.QApplication(sys.argv)
-#     MainWindow = QtWidgets.QMainWindow()
-#     ui = Ui_MainWindow()
-#     ui.setupUi(MainWindow)
-#     MainWindow.show()
-#     sys.exit(app.exec_())
+if __name__ == "__main__":
+    import sys
+    app = QtWidgets.QApplication(sys.argv)
+    MainWindow = QtWidgets.QMainWindow()
+    ui = Ui_MainWindow()
+    ui.setupUi(MainWindow)
+    MainWindow.show()
+    sys.exit(app.exec_())

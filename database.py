@@ -60,3 +60,16 @@ class Database:
         conn.close()
         return True
 
+    def get_user_notes(self, conn):
+        """
+        queries the database for notes associated with the user_id from the users table.
+
+        :param conn: opened database object
+        :param user_id: this is the user id associated with this table from the users table.
+        :return: rows: these are the notes added by a given user.
+        """
+        cur = conn.cursor()
+        cur.execute("SELECT * FROM notes")
+        rows = cur.fetchall()
+        conn.close()
+        return rows
