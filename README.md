@@ -1,4 +1,5 @@
-This is a little project I've started working on.
+This is a little project I've started working on. This is basically a simple text editor that allows users to create and
+save notes into a sqlite database. 
 
 Current functionality
 - Allows you to name a note and add contents to a note. 
@@ -9,3 +10,6 @@ Current functionality
 
 Next steps
 
+- Deleting notes.
+- Modify the way that notes are recalled so that more than most recent notes can be recalled. 
+- Adding structure to database to organize notes into "projects" or something similar to that.
