@@ -73,3 +73,12 @@ class Database:
         rows = cur.fetchall()
         conn.close()
         return rows
+
+    def edit_note(self, conn, note_to_edit):
+        sql = '''UPDATE notes
+                 SET name = ?,
+                     notes = ?
+                 WHERE id = ?'''
+        cur = conn.cursor()
+        cur.execute(sql, note_to_edit)
+        conn.commit()
