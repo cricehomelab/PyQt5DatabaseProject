@@ -8,8 +8,9 @@ Current functionality
 - Set a way to edit these notes. 
 - Created a way to clear the text boxes to create a new note. 
 
-Next steps
+Currently, working on:
+- Modify the way that notes are recalled so that more than most recent notes can be recalled.
 
+Next steps
 - Deleting notes.
-- Modify the way that notes are recalled so that more than most recent notes can be recalled. 
 - Adding structure to database to organize notes into "projects" or something similar to that.
