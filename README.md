@@ -10,6 +10,8 @@ Current functionality
 
 Currently, working on:
 - Modify the way that notes are recalled so that more than most recent notes can be recalled.
+- Was able to recall more notes in the order I want to currently 0_0_3 has had features stripped.
+- Need to re-add those features, will likely require rework as the code for recalling notes has changed significantly.
 
 Next steps
 - Deleting notes.
